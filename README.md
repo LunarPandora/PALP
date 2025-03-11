@@ -1,4 +1,4 @@
-<h2 align="center">Adaptive Design based on Cross Platform Concept</h2>
+<h2 align="center">Adaptive Design based on Multi Platform Concept</h2>
 <p align="center">Wendy Yansah | 22100032</p>
 
 
