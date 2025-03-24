@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+// void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ResponsiveExample extends StatelessWidget {
+  const ResponsiveExample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     ];
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: appTitle,
       home: Scaffold(
         // appBar: AppBar(title: const Text(appTitle)),
