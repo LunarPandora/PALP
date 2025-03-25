@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(SeqNavApp());
 }
 
-class MyApp extends StatelessWidget {
+class SeqNavApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +23,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController =
-      PageController(); // Controller untuk PageView
+      PageController();
   int _currentPage = 0;
   final List<String> _titles = [
     "Welcome to MyApp!",
@@ -97,7 +97,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           isLastPage
               ? ElevatedButton(
                 onPressed: () {
-                  // Aksi ketika selesai
                   print("Onboarding Selesai!");
                 },
                 child: Text("Get Started"),

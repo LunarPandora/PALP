@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ModalNavApp());
 }
 
-class MyApp extends StatelessWidget {
+class ModalNavApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,13 +27,13 @@ class HomePage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Tutup dialog
+                Navigator.pop(context);
               },
               child: Text('Batal'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Tutup dialog
+                Navigator.pop(context);
                 print('Aksi dilanjutkan');
               },
               child: Text('Lanjut'),

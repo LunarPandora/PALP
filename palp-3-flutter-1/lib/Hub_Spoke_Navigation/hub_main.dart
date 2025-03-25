@@ -4,10 +4,10 @@ import 'spoke_second_page.dart';
 import 'spoke_third_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(HubSpokeNavApp());
 }
 
-class MyApp extends StatelessWidget {
+class HubSpokeNavApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

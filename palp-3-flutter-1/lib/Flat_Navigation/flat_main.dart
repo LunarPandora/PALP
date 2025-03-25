@@ -4,10 +4,10 @@ import 'profile_screen.dart';
 import 'responsive_example.dart';
 
 void main(){
-  runApp(MyApp());
+  runApp(FlatNavApp());
 }
 
-class MyApp extends StatelessWidget{
+class FlatNavApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

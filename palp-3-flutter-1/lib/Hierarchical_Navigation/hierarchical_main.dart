@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'page2.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(HierarchicalNavApp());
 }
 
-class MyApp extends StatelessWidget {
+class HierarchicalNavApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,7 +31,6 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigasi ke halaman kedua (Second Page)
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SecondPage()),
