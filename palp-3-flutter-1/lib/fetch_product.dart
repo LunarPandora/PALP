@@ -295,6 +295,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
   Widget build(BuildContext context) {
     final box = Hive.box('product');
 
+    void removeFromBox(int key){
+      box.delete(key);
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -308,111 +312,119 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     child: Column(
                       children: [
                         _buildStatusCards(),
-                        MasonryGridView.builder(
-                          gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2
-                          ),
-                          padding: EdgeInsets.all(15),
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          itemCount: Hive.box('product').length,
-                          shrinkWrap: true, // ✅ Allows MasonryGridView to wrap its content
-                          physics: NeverScrollableScrollPhysics(), 
-                          itemBuilder: (context, index) {
-                            final product = box.get(index);
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.black12,
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Column(
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Image.network(
-                                          product['photo'],
-                                          width: double.infinity,
-                                        ),
+                        ValueListenableBuilder(
+                          valueListenable: Hive.box('product').listenable(),
+                          builder: (context, Box box, _) {
+                            final products = box.values.toList();
+                            final keys = box.keys.toList();
 
-                                        Positioned(
-                                          top: 5,
-                                          right: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              shape: BoxShape.circle,
+                            return MasonryGridView.builder(
+                              gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2
+                              ),
+                              padding: EdgeInsets.all(15),
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              itemCount: Hive.box('product').length,
+                              shrinkWrap: true, // ✅ Allows MasonryGridView to wrap its content
+                              physics: NeverScrollableScrollPhysics(), 
+                              itemBuilder: (context, index) {
+                                final product = products[index];
+                                final key = keys[index];
+
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.black12,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Column(
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Image.network(
+                                              product['photo'],
+                                              width: double.infinity,
                                             ),
-                                            child: IconButton(
-                                              icon: Icon(
-                                                Icons.more_horiz, 
-                                                color: Colors.black,
-                                                size: 20,
+
+                                            Positioned(
+                                              top: 5,
+                                              right: 5,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    Icons.delete_outline_outlined, 
+                                                    color: Colors.black,
+                                                    size: 20,
+                                                  ),
+                                                  onPressed: () => removeFromBox(key),
+                                                ),
                                               ),
-                                              onPressed: () {
-                                                // Handle button press
-                                              },
-                                            ),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product['name'],
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    formatRupiah(product['price']),
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.w800
+                                                    ),
+                                                  ),
+                                                  product['is_promo'] == 1
+                                                  ? 
+                                                    Container(
+                                                      padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.red.shade800,
+                                                        borderRadius: BorderRadius.circular(10)
+                                                      ),
+                                                      child: Text(
+                                                        'Promo',
+                                                        style: TextStyle(
+                                                          color: Colors.white
+                                                        )
+                                                      ),
+                                                    )
+                                                  :
+                                                  SizedBox.shrink()
+                                                ],
+                                              ),
+                                            ]
                                           ),
                                         )
                                       ],
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            product['name'],
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                formatRupiah(product['price']),
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w800
-                                                ),
-                                              ),
-                                              product['is_promo'] == 1
-                                              ? 
-                                                Container(
-                                                  padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.red.shade800,
-                                                    borderRadius: BorderRadius.circular(10)
-                                                  ),
-                                                  child: Text(
-                                                    'Promo',
-                                                    style: TextStyle(
-                                                      color: Colors.white
-                                                    )
-                                                  ),
-                                                )
-                                              :
-                                              SizedBox.shrink()
-                                            ],
-                                          ),
-                                        ]
-                                      ),
                                     )
-                                  ],
-                                )
-                              )
+                                  )
+                                );
+                              },
                             );
-                          },
+                          }
                         )
                       ],
                     ),

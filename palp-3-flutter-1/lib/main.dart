@@ -52,10 +52,10 @@ class _MainScreenState extends State<MainScreen>{
             icon: Icon(Icons.library_add_check_outlined),
             label: "New Product"
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mobile_friendly),
-            label: "Responsive Test"
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.mobile_friendly),
+          //   label: "Responsive Test"
+          // ),
         ],
         currentIndex: _currentIndex,
         selectedItemColor: Colors.blue,
